@@ -15,27 +15,33 @@
 #choose pokemon DONE
 #####Sun 19 Feb####
 #health counter colour changer DONE
+#add STDIN.getch
+#random damage is determined when the move object is created. make it so damage is randomised eery time
+#slowly roll text out
+
 
 #####TODo
-#add STDIN.getch
+#README
 #Error output when you input not 1/2/3/4
 #use Hashes
-#random damage is determined when the move object is created. make it so damage is randomised eery time
 #taking turns
 #2nd player
 #types weakness/strengths should be in arrays (squirtle isnt weak to grass right now)
 #make a database of pokemon/spells, and the game pull the data from there.
 #chance to critical changes per move
 #move poke picker into a class
+#do pictures for each move?
 #add def self.all to the game initiator
 #add catpix gemsr
   #clear from a certain spot (ie doesnt clear the pictures of the pokemon, but clears the text i put)
 #use class inheritance
+#pokemon music
 
 require "./classes"
 require "./data"
 require "paint"
 require "terminal-table"
+require "IO/console"
 
 system 'clear'
 #########Type List
@@ -46,16 +52,16 @@ fire = Type.new(Paint["Fire", :red], "fire", "grass", "water")
 grass = Type.new(Paint["Grass", :green], "grass", "water", "fire")
 
 #########Moves list
-thundershock = Move.new(Paint["Thundershock", :yellow], rand(10..20), electric)
-thunderbolt = Move.new(Paint["Thunderbolt", :yellow], rand(15..25), electric)
-headbutt = Move.new("Headbutt", rand(5..10), normal)
-fart = Move.new("Fart", rand(1..5), normal)
-water_gun = Move.new(Paint["Water Gun", :blue], rand(10..20), water)
-bubblebeam = Move.new(Paint["Bubblebeam", :blue], rand(15..25), water)
-ember = Move.new(Paint["Ember", :red], rand(10..20), fire)
-flamethrower = Move.new(Paint["Flamethrower", :red], rand(15..25), fire)
-razor_leaf = Move.new(Paint["Razor Leaf", :green], rand(10..20), grass)
-solar_beam = Move.new(Paint["Solar Beam", :green], rand(15..25), grass)
+thundershock = Move.new(Paint["Thundershock", :yellow], 10, 20, electric)
+thunderbolt = Move.new(Paint["Thunderbolt", :yellow], 15, 25, electric)
+headbutt = Move.new("Headbutt", 5, 10, normal)
+fart = Move.new("Fart", 1, 5, normal)
+water_gun = Move.new(Paint["Water Gun", :blue], 10, 20, water)
+bubblebeam = Move.new(Paint["Bubblebeam", :blue], 15, 25, water)
+ember = Move.new(Paint["Ember", :red], 10, 20, fire)
+flamethrower = Move.new(Paint["Flamethrower", :red], 15, 25, fire)
+razor_leaf = Move.new(Paint["Razor Leaf", :green], 10, 20, grass)
+solar_beam = Move.new(Paint["Solar Beam", :green], 15, 25, grass)
 
 ##### Pokemon List
 pikachu = Pokemon.new(Paint["Pikachu", :yellow], 100, electric, [thundershock, thunderbolt, headbutt, fart])
@@ -63,14 +69,12 @@ squirtle = Pokemon.new(Paint["Squirtle", :blue], 100, water, [water_gun, bubbleb
 charmander = Pokemon.new(Paint["Charmander", :red], 100, fire, [ember, flamethrower, headbutt, fart])
 bulbasaur = Pokemon.new(Paint["Bulbasaur", :green], 100, grass, [razor_leaf, solar_beam, headbutt, fart])
 
-new_game = Initialize_game.new(1)
+new_game = InitializeGame.new(1)
 
 pokemons = []
 
-puts "Would you like to be 1.Pikachu, 2.Squirtle, 3.Charmander, or 4.Bulbasaur?"
-chosen_pokemon = gets.chomp.to_i
-puts "Would you like your opponent to be 1.Pikachu, 2.Squirtle, 3.Charmander, or 4.Bulbasaur?"
-chosen_enemy = gets.chomp.to_i
+slow_text("Player 1 - Would you like to be 1.Pikachu, 2.Squirtle, 3.Charmander, or 4.Bulbasaur?")
+chosen_pokemon = STDIN.getch.to_i
 case chosen_pokemon
   when 1
     pokemons.push(pikachu)
@@ -80,8 +84,12 @@ case chosen_pokemon
     pokemons.push(charmander)
   when 4
     pokemons.push(bulbasaur)
+  else
+    slow_text("You did not enter a valid command!")
 end
 
+slow_text("Player 2 - Would you like to be 1.Pikachu, 2.Squirtle, 3.Charmander, or 4.Bulbasaur?")
+chosen_enemy = STDIN.getch.to_i
 case chosen_enemy
   when 1
     pokemons.push(pikachu)
@@ -91,6 +99,8 @@ case chosen_enemy
     pokemons.push(charmander)
   when 4
     pokemons.push(bulbasaur)
+  else
+    slow_text("You did not enter a valid command!")
 end
 
 new_game.begin_turn(pokemons.at(0), pokemons.at(1))
