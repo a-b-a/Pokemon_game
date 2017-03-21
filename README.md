@@ -8,6 +8,8 @@ The game itself is based of the popular game/tv show Pokémon. It encompasses th
 
 The game features very basic functionality similar to that of the real game, with each pokemon and move having a particular type, to critical hits.
 
+![Imgur](http://i.imgur.com/u6dlwek.png)
+
 ## Installation instructions
 The prerequesites are:
  - Ruby
